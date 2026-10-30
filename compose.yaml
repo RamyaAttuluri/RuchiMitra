@@ -1,0 +1,44 @@
+services:
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    env_file: ./backend/.env
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: file:/app/data/recipes.db
+      FRONTEND_ORIGIN: ${PUBLIC_ORIGIN:?Set PUBLIC_ORIGIN in root .env}
+      TRUST_PROXY_HOPS: 1
+    volumes:
+      - recipe_data:/app/data
+      - recipe_uploads:/app/uploads
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:5000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_URL: ${PUBLIC_ORIGIN:?Set PUBLIC_ORIGIN}/api
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+  proxy:
+    image: caddy:2.10
+    restart: unless-stopped
+    environment:
+      RECIPE_HOST: ${RECIPE_HOST:?Set RECIPE_HOST in root .env}
+    ports: ["80:80", "443:443"]
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on: [frontend]
+volumes:
+  recipe_data:
+  recipe_uploads:
+  caddy_data:
+  caddy_config:

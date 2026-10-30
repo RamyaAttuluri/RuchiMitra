@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         String   @default("USER")
+  createdAt    DateTime @default(now())
+  resets       PasswordReset[]
+  sessions     Session[]
+  favorites    Favorite[]
+  shopping     ShoppingItem[]
+}
+model Session {
+  id         String   @id @default(cuid())
+  tokenHash  String   @unique
+  userId     String
+  expiresAt  DateTime
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId])
+  @@index([expiresAt])
+}
+model Recipe {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  description String
+  cuisine     String
+  category    String
+  difficulty  String
+  prepMinutes Int
+  cookMinutes Int
+  servings    Int
+  imageUrl    String
+  tags        String
+  ingredients String
+  steps       String
+  tip         String
+  translations String @default("{}")
+  source      String   @default("CURATED")
+  // PUBLISHED is public, DRAFT is admin-only, ARCHIVED is a reversible soft delete.
+  status      String   @default("PUBLISHED")
+  archivedAt  DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+  favorites   Favorite[]
+  @@index([status])
+}
+model Favorite {
+  userId    String
+  recipeId  String
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipe    Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  @@id([userId, recipeId])
+}
+model ShoppingItem {
+  id       String  @id @default(cuid())
+  userId   String
+  name     String
+  amount   String
+  checked  Boolean @default(false)
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId])
+}
+
+model PasswordReset {
+  id String @id @default(cuid())
+  tokenHash String @unique
+  userId String
+  expiresAt DateTime
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+  @@index([expiresAt])
+}
+
+// Durable admin generation work; recipes remain drafts for review.
+model AiJob {
+  id String @id @default(cuid())
+  ownerId String
+  input String
+  status String @default("QUEUED")
+  phase String @default("Waiting")
+  recipeId String?
+  error String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  @@index([status, createdAt])
+  @@index([ownerId])
+}

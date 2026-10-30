@@ -1,0 +1,1 @@
+import Link from 'next/link';export default function NotFound(){return <main className="container subpage"><div className="empty-state"><div className="no-icon">✳</div><h2>We couldn't find that recipe.</h2><p>Try another search and discover something new.</p><Link className="btn btn-dark" href="/search">Browse recipes ↗</Link></div></main>}

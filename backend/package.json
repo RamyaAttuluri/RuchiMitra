@@ -1,0 +1,48 @@
+{
+  "name": "saffron-recipe-backend",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --import tsx --watch src/server.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/src/server.js",
+    "db:generate": "prisma generate",
+    "db:push": "node scripts/ensure-db.mjs && prisma db push",
+    "db:seed": "node --import tsx prisma/seed.ts",
+    "setup": "node scripts/bootstrap.mjs --generate",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "audit:prod": "npm audit --omit=dev",
+    "admin:reset": "node --import tsx prisma/admin-reset.ts",
+    "db:deploy": "node scripts/ensure-db.mjs && prisma migrate deploy",
+    "predev": "node scripts/bootstrap.mjs --generate",
+    "prestart": "node scripts/bootstrap.mjs"
+  },
+  "dependencies": {
+    "@prisma/client": "6.19.0",
+    "argon2": "0.44.0",
+    "cookie-parser": "1.4.7",
+    "cors": "2.8.5",
+    "dotenv": "16.6.1",
+    "express": "4.22.3",
+    "express-rate-limit": "8.7.1",
+    "helmet": "8.1.0",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.23",
+    "@types/node": "^22.0.0",
+    "prisma": "6.19.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=20.9"
+  },
+  "overrides": {
+    "deepmerge-ts": "8.0.0",
+    "effect": "^3.20.0"
+  }
+}

@@ -1,0 +1,6 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {assertAudiblePcm,assertAudibleWav} from '../src/audio.js';
+const pcm=()=>{const data=Buffer.alloc(4800);for(let n=0;n<2400;n++)data.writeInt16LE(Math.round(6000*Math.sin(n*.1)),n*2);return data};
+function wav(data:Buffer){const h=Buffer.alloc(44);h.write('RIFF');h.writeUInt32LE(36+data.length,4);h.write('WAVE',8);h.write('fmt ',12);h.writeUInt32LE(16,16);h.writeUInt16LE(1,20);h.writeUInt16LE(1,22);h.writeUInt32LE(24000,24);h.writeUInt32LE(48000,28);h.writeUInt16LE(2,32);h.writeUInt16LE(16,34);h.write('data',36);h.writeUInt32LE(data.length,40);return Buffer.concat([h,data])}
+test('audible PCM and WAV pass signal validation',()=>{assert.doesNotThrow(()=>assertAudiblePcm(pcm()));assert.doesNotThrow(()=>assertAudibleWav(wav(pcm())))});
+test('silence is rejected before playback',()=>{assert.throws(()=>assertAudiblePcm(Buffer.alloc(4800)),(e:any)=>e.code==='TTS_SILENT_AUDIO');assert.throws(()=>assertAudibleWav(wav(Buffer.alloc(4800))),(e:any)=>e.code==='TTS_SILENT_AUDIO')});
+test('empty, truncated and non-audio payloads are rejected',()=>{for(const data of [Buffer.alloc(0),Buffer.from('not audio'),wav(pcm()).subarray(0,30)])assert.throws(()=>assertAudibleWav(data));assert.throws(()=>assertAudiblePcm(Buffer.alloc(5)))});

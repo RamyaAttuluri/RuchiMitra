@@ -1,0 +1,80 @@
+{
+  "date": "2026-10-28",
+  "node": "24.22.1",
+  "backend": {
+    "build": "passed",
+    "automatedTests": 59,
+    "passed": 59,
+    "failed": 0
+  },
+  "frontend": {
+    "productionBuild": "passed",
+    "staticRoutesGenerated": 12
+  },
+  "browser": {
+    "checks": [
+      "Compiled npm start migrates the relative-path database and serves 12 recipes",
+      "Configured cloud narration is selected by default",
+      "Real browser media pipeline emits nonzero PCM samples (mocked WAV provider)",
+      "Cloud audio pause and resume work",
+      "Volume control and speaker-test guidance work",
+      "A browser voice that reports started without audio can be replaced immediately with non-silent cloud playback",
+      "Decoded silent audio is rejected instead of showing successful playback",
+      "Admin generation receives a short 202 response and shows progress",
+      "Reload reconnects to the saved job without submitting a duplicate",
+      "Completed background job opens the recipe editor"
+    ],
+    "errors": []
+  },
+  "dependencyAudits": {
+    "backend": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "frontend": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    }
+  },
+  "followup": {
+    "databaseStartup": "safe migrations and seeding before dev/start",
+    "starterRecipes": 12,
+    "localImageUrlsVerified": 12,
+    "backendTests": 53,
+    "browserChecksPassed": 9,
+    "browserPageExceptions": 0,
+    "windowsHostTested": false,
+    "dockerOrHttpsDeploymentTested": false,
+    "browser": {
+      "checks": [
+        "npm start initialized fresh relative-path database with 12 recipes",
+        "Homepage featured recipes and images load while all external HTTPS requests are blocked",
+        "All 12 starter recipe photo URLs return image bytes",
+        "All recipe cards remain visible independently of scroll-animation callbacks",
+        "Admin login succeeds against automatically initialized database",
+        "Recipe detail loads recipe, ingredients and local photo",
+        "390px mobile homepage loads without horizontal overflow",
+        "Database 503 is shown with retry instead of endless loading or an empty catalogue",
+        "Homepage recovers after retry without a page reload"
+      ],
+      "errors": []
+    }
+  },
+  "latestCorrection": {
+    "topic": "admin timeout and audio",
+    "schemaMigration": "20261028010000_ai_jobs",
+    "automatedTestsPassed": 59,
+    "browserChecksPassed": 10,
+    "providerMocked": true,
+    "physicalSpeakerOutputVerified": false,
+    "builds": "passed"
+  }
+}
