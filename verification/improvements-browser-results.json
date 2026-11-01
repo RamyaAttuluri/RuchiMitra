@@ -1,0 +1,58 @@
+{
+  "downloads": [
+    {
+      "language": "en",
+      "filename": "Andhra-Chicken-Curry-English.pdf"
+    },
+    {
+      "language": "te",
+      "filename": "Andhra-Chicken-Curry-Telugu.pdf"
+    },
+    {
+      "language": "hi",
+      "filename": "Andhra-Chicken-Curry-Hindi.pdf"
+    }
+  ],
+  "modal": [
+    "English default independent of voice language",
+    "Escape closes and restores focus",
+    "focus trap",
+    "Cancel closes"
+  ],
+  "fallback": [
+    "translation failure keeps dialog open and offers explicit English choice",
+    "failed translation leaves all English steps, serving controls and downloads usable",
+    "Print fallback includes collapsed mobile ingredients"
+  ],
+  "animation": [
+    {
+      "label": "desktop",
+      "overflow": false,
+      "heading": 604.640625,
+      "cta": 193.328125,
+      "words": true
+    },
+    {
+      "label": "tablet",
+      "overflow": false,
+      "heading": 372.640625,
+      "cta": 193.328125,
+      "words": true
+    },
+    {
+      "label": "mobile",
+      "overflow": false,
+      "heading": 354,
+      "cta": 193.328125,
+      "words": true
+    },
+    {
+      "label": "reduced",
+      "overflow": false,
+      "heading": 354,
+      "cta": 193.328125,
+      "words": true
+    },
+    "CTA and client navigation/back preserve accessible heading"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "scenes": [
+    "Listen.",
+    "Cook.",
+    "Savour."
+  ],
+  "checks": [
+    "film repeats automatically after all three scenes",
+    "food scene changes with visible transforms",
+    "Pause freezes animation",
+    "Replay restarts at Listen",
+    "accent text is painted solid burgundy, never transparent",
+    "offscreen stage pauses",
+    "mobile motion plays without horizontal overflow",
+    "reduced motion shows a static first scene with readable heading",
+    "navigation/back starts one working scene and retains the CTA"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "repository": "rhasspy/piper-voices",
+  "revision": "5041a7a49ae5b3a0f30e6837769eb03fdbb231bd",
+  "voice": "te_IN-padmavathi-medium",
+  "source": "https://huggingface.co/rhasspy/piper-voices/resolve/5041a7a49ae5b3a0f30e6837769eb03fdbb231bd/te/te_IN/padmavathi/medium/",
+  "datasetLicense": "CC-BY-4.0",
+  "modelCard": "# Model card for padmavathi (medium)\n\n* Language: te_IN (Telugu, India)\n* Speakers: 1\n* Quality: medium\n* Samplerate: 22,050Hz\n\n## Dataset\n\n* URL: https://huggingface.co/datasets/ai4bharat/indicvoices_r\n* License:  CC-BY-4.0\n\n## Training\n\nTrained by: https://github.com/PravalX\n"
+}

@@ -1,0 +1,12 @@
+{
+  "bytes": 239892,
+  "duration": 5.438666666666666,
+  "channels": 1,
+  "peak": 0.947616696357727,
+  "rms": 0.08654153255757176,
+  "events": [
+    "playing",
+    "ended"
+  ],
+  "physicalAudibility": "NOT VERIFIED: automated headless browser"
+}

@@ -1,0 +1,115 @@
+[
+  {
+    "file": "verification\\recipe-en-five.pdf",
+    "pages": 3,
+    "fonts": [
+      "",
+      "AAAAAA+NotoSans-Regular",
+      "BAAAAA+ArialMT"
+    ],
+    "characters": 1690,
+    "missingGlyphs": [],
+    "bytes": 247190
+  },
+  {
+    "file": "verification\\recipe-en-scaled.pdf",
+    "pages": 3,
+    "fonts": [
+      "",
+      "AAAAAA+NotoSans-Regular",
+      "BAAAAA+ArialMT"
+    ],
+    "characters": 1665,
+    "missingGlyphs": [],
+    "bytes": 250140
+  },
+  {
+    "file": "verification\\recipe-hi.pdf",
+    "pages": 3,
+    "fonts": [
+      "",
+      "AAAAAA+NotoSans-Regular",
+      "BAAAAA+NotoSansDevanagari-Regular",
+      "CAAAAA+ArialMT"
+    ],
+    "characters": 1444,
+    "missingGlyphs": [],
+    "bytes": 307302
+  },
+  {
+    "file": "verification\\recipe-long.pdf",
+    "pages": 9,
+    "fonts": [
+      "",
+      "AAAAAA+NotoSans-Regular",
+      "BAAAAA+ArialMT"
+    ],
+    "characters": 12775,
+    "missingGlyphs": [],
+    "bytes": 92165
+  },
+  {
+    "file": "verification\\recipe-te-scaled.pdf",
+    "pages": 3,
+    "fonts": [
+      "",
+      "AAAAAA+NotoSans-Regular",
+      "BAAAAA+NotoSansTelugu-Regular",
+      "CAAAAA+ArialMT"
+    ],
+    "characters": 1538,
+    "missingGlyphs": [],
+    "bytes": 402244
+  },
+  {
+    "file": "verification\\recipe-te.pdf",
+    "pages": 3,
+    "fonts": [
+      "",
+      "AAAAAA+NotoSans-Regular",
+      "BAAAAA+NotoSansTelugu-Regular",
+      "CAAAAA+ArialMT"
+    ],
+    "characters": 1572,
+    "missingGlyphs": [],
+    "bytes": 400664
+  },
+  {
+    "file": "verification\\recipe-ui-en.pdf",
+    "pages": 3,
+    "fonts": [
+      "",
+      "AAAAAA+NotoSans-Regular",
+      "BAAAAA+ArialMT"
+    ],
+    "characters": 1690,
+    "missingGlyphs": [],
+    "bytes": 247190
+  },
+  {
+    "file": "verification\\recipe-ui-hi.pdf",
+    "pages": 3,
+    "fonts": [
+      "",
+      "AAAAAA+NotoSans-Regular",
+      "BAAAAA+NotoSansDevanagari-Regular",
+      "CAAAAA+ArialMT"
+    ],
+    "characters": 1451,
+    "missingGlyphs": [],
+    "bytes": 308190
+  },
+  {
+    "file": "verification\\recipe-ui-te.pdf",
+    "pages": 3,
+    "fonts": [
+      "",
+      "AAAAAA+NotoSans-Regular",
+      "BAAAAA+NotoSansTelugu-Regular",
+      "CAAAAA+ArialMT"
+    ],
+    "characters": 1563,
+    "missingGlyphs": [],
+    "bytes": 401208
+  }
+]

@@ -1,0 +1,107 @@
+{
+  "status": {
+    "provider": "ollama",
+    "model": "qwen3:4b",
+    "connected": true,
+    "modelAvailable": true,
+    "configured": true
+  },
+  "tests": [
+    {
+      "stage": "hi",
+      "passed": false,
+      "elapsedMs": 240152,
+      "error": "Local AI timed out or was cancelled."
+    },
+    {
+      "stage": "te",
+      "passed": false,
+      "elapsedMs": 242263,
+      "error": "Local AI timed out or was cancelled."
+    }
+  ],
+  "recipe": {
+    "name": "Vegetarian Tomato Rice",
+    "description": "Simple vegetarian tomato rice recipe for 2 servings",
+    "cuisine": "Vegetarian",
+    "category": "Vegetarian",
+    "difficulty": "Easy",
+    "prepMinutes": 5,
+    "cookMinutes": 15,
+    "servings": 2,
+    "imageUrl": "",
+    "tags": [
+      "vegetarian",
+      "tomato",
+      "rice",
+      "onion",
+      "oil",
+      "salt"
+    ],
+    "ingredients": [
+      {
+        "name": "Rice",
+        "quantity": 150,
+        "unit": "g"
+      },
+      {
+        "name": "Water",
+        "quantity": 150,
+        "unit": "ml"
+      },
+      {
+        "name": "Tomato",
+        "quantity": 1,
+        "unit": "medium"
+      },
+      {
+        "name": "Onion",
+        "quantity": 1,
+        "unit": "small"
+      },
+      {
+        "name": "Oil",
+        "quantity": 15,
+        "unit": "ml"
+      },
+      {
+        "name": "Salt",
+        "quantity": 1,
+        "unit": "teaspoon"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Rinse rice",
+        "text": "Rinse 150g rice in cold water until water runs clear",
+        "minutes": 2
+      },
+      {
+        "title": "Sauté onion",
+        "text": "Heat 15ml oil in pan, add 1 small onion, sauté until soft",
+        "minutes": 3
+      },
+      {
+        "title": "Chop tomato",
+        "text": "Finely chop 1 medium tomato into small pieces",
+        "minutes": 1
+      },
+      {
+        "title": "Add tomato",
+        "text": "Add chopped tomato to pan with onion, cook for 2 minutes",
+        "minutes": 2
+      },
+      {
+        "title": "Combine rice and water",
+        "text": "Add 150g rice and 150ml water to pan, stir gently",
+        "minutes": 5
+      },
+      {
+        "title": "Cook rice",
+        "text": "Bring to boil, then reduce heat to low, cover and cook for 15 minutes",
+        "minutes": 15
+      }
+    ],
+    "tip": "Serve with a side of fresh herbs for extra flavor"
+  }
+}

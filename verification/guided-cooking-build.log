@@ -1,0 +1,51 @@
+ ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of C:\Recipe\RecipeFinder_Reviewed_Full_Source\RecipeFinder\package-lock.json as the root directory.
+ To silence this warning, set `outputFileTracingRoot` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/output#caveats for more information.
+ Detected additional lockfiles: 
+   * C:\Recipe\RecipeFinder_Reviewed_Full_Source\RecipeFinder\frontend\package-lock.json
+
+   ▲ Next.js 15.5.28
+   - Environments: .env
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 4.6s
+   Linting and checking validity of types ...
+
+   We detected TypeScript in your project and reconfigured your tsconfig.json file for you.
+   The following suggested values were added to your tsconfig.json. These values can be changed to fit your project's needs:
+
+   	- include was updated to add '.next-validation/types/**/*.ts'
+
+   Collecting page data ...
+   Generating static pages (0/12) ...
+   Generating static pages (3/12) 
+   Generating static pages (6/12) 
+   Generating static pages (9/12) 
+ ✓ Generating static pages (12/12)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ○ /                                    8.83 kB         166 kB
+├ ○ /_not-found                            127 B         103 kB
+├ ○ /admin                               15.6 kB         122 kB
+├ ○ /admin/login                           127 B         103 kB
+├ ○ /forgot-password                     1.49 kB         108 kB
+├ ○ /login                               3.62 kB         110 kB
+├ ○ /pantry                              4.32 kB         116 kB
+├ ƒ /recipe/[slug]                       17.6 kB         174 kB
+├ ○ /reset-password                      1.62 kB         108 kB
+├ ○ /saved                               4.32 kB         161 kB
+└ ○ /search                              4.51 kB         161 kB
++ First Load JS shared by all             103 kB
+  ├ chunks/255-b1e2483a7e02feee.js       46.6 kB
+  ├ chunks/4bd1b696-c023c6e3521b1417.js  54.2 kB
+  └ other shared chunks (total)          1.99 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+Next build exit code: 0

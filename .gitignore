@@ -10,3 +10,15 @@
 **/*.db-shm
 **/*.tsbuildinfo
 **/uploads/
+
+.local/
+backend/.cache/
+frontend/.next-validation/
+**/__pycache__/
+backend/tts/voices.json
+backend/tts/references/
+backend/tts/models/
+backend/tts/.venv/
+backend/tts/.venv-*/
+
+backend/tts/piper-voices.json

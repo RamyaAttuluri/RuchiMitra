@@ -1,0 +1,17 @@
+{
+  "model": "qwen3:4b",
+  "created_at": "2026-10-30T17:33:22.9773324Z",
+  "message": {
+    "role": "assistant",
+    "content": "{\n  \"name\": \"Rice\",\n  \"intro\": \"Rice. Preparation [[VALUE_AA]] minutes. Cooking [[VALUE_AB]] minutes.\",\n  \"description\": \"Rice cooked in water.\",\n  \"tip\": \"Serve warm.\",\n  \"ingredients\": [\n    \"[[VALUE_AC]] cup Rice\",\n    \"[[VALUE_AD]] cups Water\"\n  ],\n  \"steps\": [\n    {\n      \"title\": \"Rinse rice\",\n      \"text\": \"R: Rinse the rice.\"\n    },\n    {\n      \"title\": \"Cook rice\",\n      \"text\": \"Cook rice in water for [[VALUE_AE]] minutes.\"\n    }\n  ]\n}"
+  },
+  "done": true,
+  "done_reason": "stop",
+  "total_duration": 136372870700,
+  "load_duration": 28486312100,
+  "prompt_eval_count": 236,
+  "prompt_eval_cached_count": 43,
+  "prompt_eval_duration": 21182338000,
+  "eval_count": 140,
+  "eval_duration": 44621981000
+}

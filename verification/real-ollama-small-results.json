@@ -1,0 +1,53 @@
+{
+  "status": {
+    "provider": "ollama",
+    "model": "qwen3:4b",
+    "connected": true,
+    "modelAvailable": true,
+    "configured": true
+  },
+  "tests": [
+    {
+      "stage": "hi",
+      "passed": false,
+      "elapsedMs": 240521,
+      "error": "Local AI timed out or was cancelled."
+    },
+    {
+      "stage": "te",
+      "passed": false,
+      "elapsedMs": 241063,
+      "error": "Local AI timed out or was cancelled."
+    }
+  ],
+  "recipe": {
+    "name": "Rice",
+    "description": "Rice cooked in water.",
+    "tip": "Serve warm.",
+    "prepMinutes": 5,
+    "cookMinutes": 15,
+    "servings": 2,
+    "ingredients": [
+      {
+        "name": "Rice",
+        "quantity": 1,
+        "unit": "cup"
+      },
+      {
+        "name": "Water",
+        "quantity": 2,
+        "unit": "cups"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Rinse rice",
+        "text": "Rinse the rice."
+      },
+      {
+        "title": "Cook rice",
+        "text": "Cook rice in water for 15 minutes."
+      }
+    ]
+  }
+}

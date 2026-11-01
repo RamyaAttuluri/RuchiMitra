@@ -1,0 +1,14 @@
+{
+  "tts": {
+    "available": false,
+    "engine": "indicf5",
+    "version": "v1",
+    "languages": [],
+    "error": "FileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Recipe\\\\RecipeFinder_Reviewed_Full_Source\\\\RecipeFinder\\\\backend\\\\tts\\\\voices.json'"
+  },
+  "translation": {
+    "available": false,
+    "engine": "indictrans2",
+    "error": "Set INDICTRANS_MODEL_PATH to downloaded, reviewed assets"
+  }
+}

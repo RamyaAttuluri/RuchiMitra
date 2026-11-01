@@ -1,0 +1,41 @@
+{
+  "realAudio": true,
+  "cases": [
+    "Default reads step 1 and duration, waits, and does not mark cooking complete",
+    "Mark done advances once and speaks measured elapsed time before step 2",
+    "Step-list checkbox shares progress and advances to step 3",
+    "Opt-in auto-play reads remaining steps without falsely marking them done",
+    "Fish curry loads complete offline Telugu translation and plays real Telugu duration audio",
+    "Fish curry Hindi translation endpoint succeeds"
+  ],
+  "realClips": [
+    {
+      "duration": 11.93619,
+      "position": 11.93619
+    },
+    {
+      "duration": 16.41229,
+      "position": 16.41229
+    },
+    {
+      "duration": 16.519184,
+      "position": 16.519184
+    },
+    {
+      "duration": 8.239819,
+      "position": 8.239819
+    },
+    {
+      "duration": 13.733651,
+      "position": 13.733651
+    },
+    {
+      "duration": 6.974014,
+      "position": 6.974014
+    },
+    {
+      "duration": 18.506304,
+      "position": 18.506304
+    }
+  ]
+}

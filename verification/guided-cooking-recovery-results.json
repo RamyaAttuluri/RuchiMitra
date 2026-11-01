@@ -1,0 +1,7 @@
+{
+  "injectedNetworkFailure": true,
+  "clearError": true,
+  "nativePlaybackBlocked": true,
+  "englishFallback": true,
+  "mobileOverflow": false
+}

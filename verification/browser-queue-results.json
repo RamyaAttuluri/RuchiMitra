@@ -1,0 +1,29 @@
+[
+  {
+    "language": "te",
+    "mode": "continue",
+    "requests": 6,
+    "steps": 6,
+    "status": "completed",
+    "pauseResume": "passed",
+    "audio": "English WAV fixture: actual decode/play/end; target-language synthesis NOT tested"
+  },
+  {
+    "language": "hi",
+    "mode": "continue",
+    "requests": 6,
+    "steps": 6,
+    "status": "completed",
+    "pauseResume": "not exercised",
+    "audio": "English WAV fixture: actual decode/play/end; target-language synthesis NOT tested"
+  },
+  {
+    "language": "en",
+    "mode": "full",
+    "requests": 19,
+    "steps": 6,
+    "status": "completed",
+    "pauseResume": "not exercised",
+    "audio": "English WAV fixture: actual decode/play/end; target-language synthesis NOT tested"
+  }
+]

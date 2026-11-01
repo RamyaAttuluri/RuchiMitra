@@ -1,5 +1,9 @@
 # Setup and deployment
 
+Current PDF renderer assets, browser requirements, AI deadlines and startup commands are in [RECIPE_IMPROVEMENTS.md](RECIPE_IMPROVEMENTS.md). Deploy `backend/assets/fonts` with the backend and keep Ollama, speech and translation cache private.
+
+For the current Ollama and lightweight local speech configuration, follow [MASTER_WINDOWS_SETUP.md](MASTER_WINDOWS_SETUP.md) and its validation report. The Gemini setup below describes the optional cloud path; no Gemini key is required by the local defaults. Preserve existing `.env` files and the SQLite database.
+
 ## Local development (Windows, macOS, Linux)
 
 Use Node 22 LTS. Install dependencies on the target OS; never reuse the uploaded Windows node_modules on Linux.

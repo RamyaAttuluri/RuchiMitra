@@ -1,0 +1,52 @@
+const {chromium}=require('../backend/node_modules/playwright-core');
+const assert=require('node:assert/strict');const fs=require('node:fs');
+(async()=>{
+ const browser=await chromium.launch({channel:'msedge',headless:true,args:['--autoplay-policy=no-user-gesture-required']});
+ const results={realAudio:true,cases:[]};let page;
+ try{
+ page=await browser.newPage({viewport:{width:1440,height:1100},reducedMotion:'reduce'});const errors=[],requests=[];
+ page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(r.url().endsWith('/tts/synthesize'))requests.push(JSON.parse(r.postData()))});
+ await page.addInitScript(()=>{
+  window.__clips=[];window.__ends=[];const play=HTMLMediaElement.prototype.play;
+  HTMLMediaElement.prototype.play=function(){if(!window.__clips.includes(this)){window.__clips.push(this);this.addEventListener('ended',()=>window.__ends.push({duration:this.duration,position:this.currentTime}),{capture:true})}this.playbackRate=4;return play.call(this)};
+ });
+ await page.goto('http://localhost:3000/recipe/fish-curry',{waitUntil:'domcontentloaded'});
+ const player=page.locator('.voice-player');await player.waitFor();
+ const auto=player.getByRole('checkbox',{name:'Auto-play all steps'});assert.equal(await auto.isChecked(),false);
+ await player.getByRole('combobox').nth(1).selectOption('server',{timeout:30000});
+ await player.getByRole('button',{name:'Read this step',exact:true}).click();
+ await page.waitForFunction(()=>document.querySelector('.voice-player')?.dataset.status==='completed',null,{timeout:120000});
+ assert.equal(requests.length,1);assert.match(requests[0].text,/about 5 minutes/);assert.match(requests[0].text,/Mark done/);
+ await player.getByText('Waiting for you',{exact:true}).waitFor();
+ await page.waitForTimeout(1500);assert.equal(requests.length,1);assert.equal(await page.locator('.step-list input:checked').count(),0);
+ results.cases.push('Default reads step 1 and duration, waits, and does not mark cooking complete');
+ await player.screenshot({path:'verification/guided-cooking-waiting.png'});
+ console.log('Guided step 1 passed');
+ await player.getByRole('button',{name:'Mark done & continue',exact:true}).click();
+ await page.waitForFunction(()=>document.querySelector('.voice-current-top>span')?.textContent==='STEP 2 OF 5'&&document.querySelector('.voice-player')?.dataset.status==='completed',null,{timeout:120000});
+ assert.equal(requests.length,2);assert.match(requests[1].text,/Step 1 complete\. Elapsed time:/);assert.equal(await page.locator('.step-list input:checked').count(),1);
+ results.cases.push('Mark done advances once and speaks measured elapsed time before step 2');
+ console.log('Mark done passed');
+ await page.locator('.step-list input[type=checkbox]').nth(1).check();
+ await page.waitForFunction(()=>document.querySelector('.voice-current-top>span')?.textContent==='STEP 3 OF 5'&&document.querySelector('.voice-player')?.dataset.status==='completed',null,{timeout:120000});
+ assert.equal(requests.length,3);assert.equal(await page.locator('.step-list input:checked').count(),2);
+ results.cases.push('Step-list checkbox shares progress and advances to step 3');
+ console.log('Step checkbox passed');
+ await auto.check();await player.getByRole('button',{name:'Play all remaining steps',exact:true}).click();
+ await page.waitForFunction(()=>document.querySelector('.voice-current-top>span')?.textContent==='STEP 5 OF 5'&&document.querySelector('.voice-player')?.dataset.status==='completed',null,{timeout:180000});
+ assert.equal(requests.length,6);assert.equal(await page.locator('.step-list input:checked').count(),2);
+ results.cases.push('Opt-in auto-play reads remaining steps without falsely marking them done');
+ console.log('Auto-play passed');
+ await auto.uncheck();await player.getByRole('combobox').nth(0).selectOption('te');
+ await page.waitForFunction(()=>/చేప/.test(document.querySelector('.voice-current h4')?.textContent||''),null,{timeout:30000});
+ await player.getByRole('button',{name:'Read this step',exact:true}).click();
+ await page.waitForFunction(()=>document.querySelector('.voice-player')?.dataset.status==='completed',null,{timeout:120000});
+ assert.match(requests.at(-1).text,/నిమిషాలు/);assert.equal(requests.at(-1).language,'te');
+ assert.equal(await page.locator('.voice-warning').count(),0);results.cases.push('Fish curry loads complete offline Telugu translation and plays real Telugu duration audio');
+ await player.screenshot({path:'verification/guided-cooking-telugu.png'});
+ const response=await page.request.post('http://localhost:5000/api/recipes/fish-curry/translate',{headers:{Origin:'http://localhost:3000'},data:{lang:'hi'}});assert.equal(response.status(),200);assert.equal((await response.json()).translation.steps.length,5);
+ results.cases.push('Fish curry Hindi translation endpoint succeeds');
+ assert.deepEqual(errors,[]);results.realClips=await page.evaluate(()=>window.__ends);assert.ok(results.realClips.length>=7);assert.ok(results.realClips.every(a=>a.duration>0&&a.position>0));
+ fs.writeFileSync('verification/guided-cooking-results.json',JSON.stringify(results,null,2));console.log(JSON.stringify(results));
+ }catch(error){if(page)fs.writeFileSync('verification/guided-cooking-failure.json',JSON.stringify({error:error.message,diagnostics:await page.evaluate(()=>({status:document.querySelector('.voice-player')?.getAttribute('data-status'),text:document.querySelector('.voice-player')?.textContent,ends:window.__ends,clips:window.__clips?.map(a=>({duration:a.duration,paused:a.paused,ended:a.ended,current:a.currentTime,error:a.error?.code}))}))},null,2));throw error}finally{await browser.close()}
+})().catch(e=>{console.error(e);process.exitCode=1});

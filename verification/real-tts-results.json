@@ -1,0 +1,111 @@
+{
+  "tts/status": {
+    "provider": "auto",
+    "available": true,
+    "engine": "auto",
+    "version": "v1",
+    "languages": [
+      "en",
+      "hi",
+      "te"
+    ],
+    "voices": [
+      {
+        "id": "espeak-en",
+        "language": "en",
+        "engine": "espeak-ng",
+        "license": "GPL-3.0-or-later (engine)",
+        "developmentOnly": false,
+        "available": true
+      },
+      {
+        "id": "espeak-te",
+        "language": "te",
+        "engine": "espeak-ng",
+        "license": "GPL-3.0-or-later (engine)",
+        "developmentOnly": false,
+        "available": true
+      },
+      {
+        "id": "espeak-hi",
+        "language": "hi",
+        "engine": "espeak-ng",
+        "license": "GPL-3.0-or-later (engine)",
+        "developmentOnly": false,
+        "available": true
+      },
+      {
+        "id": "te_IN-padmavathi-medium",
+        "language": "te",
+        "license": "CC-BY-4.0 dataset; see the downloaded MODEL_CARD and attribution",
+        "developmentOnly": false,
+        "engine": "piper",
+        "available": true
+      }
+    ],
+    "error": "",
+    "cacheEnabled": true,
+    "translation": {
+      "available": false,
+      "engine": "indictrans2",
+      "error": "Set INDICTRANS_MODEL_PATH to downloaded, reviewed assets"
+    }
+  },
+  "tts/voices": {
+    "provider": "auto",
+    "voices": [
+      {
+        "id": "espeak-en",
+        "language": "en",
+        "engine": "espeak-ng",
+        "license": "GPL-3.0-or-later (engine)",
+        "developmentOnly": false,
+        "available": true
+      },
+      {
+        "id": "espeak-te",
+        "language": "te",
+        "engine": "espeak-ng",
+        "license": "GPL-3.0-or-later (engine)",
+        "developmentOnly": false,
+        "available": true
+      },
+      {
+        "id": "espeak-hi",
+        "language": "hi",
+        "engine": "espeak-ng",
+        "license": "GPL-3.0-or-later (engine)",
+        "developmentOnly": false,
+        "available": true
+      },
+      {
+        "id": "te_IN-padmavathi-medium",
+        "language": "te",
+        "license": "CC-BY-4.0 dataset; see the downloaded MODEL_CARD and attribution",
+        "developmentOnly": false,
+        "engine": "piper",
+        "available": true
+      }
+    ],
+    "browserVoicesManagedByClient": true
+  },
+  "ai/status": {
+    "provider": "ollama",
+    "model": "qwen3:4b",
+    "connected": true,
+    "modelAvailable": true,
+    "configured": true
+  },
+  "te": {
+    "bytes": 129068,
+    "contentType": "audio/wav",
+    "engine": "piper",
+    "voice": "te_IN-padmavathi-medium"
+  },
+  "hi": {
+    "bytes": 187486,
+    "contentType": "audio/wav",
+    "engine": "espeak-ng",
+    "voice": "espeak-hi"
+  }
+}

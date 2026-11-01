@@ -1,4 +1,12 @@
-# Latest correction: AI jobs and audio
+# Recipe downloads, AI reliability and cinematic motion
+
+Read [RECIPE_IMPROVEMENTS.md](RECIPE_IMPROVEMENTS.md) for multilingual PDF downloads, the bounded AI queue and persistent translation reuse, the video-inspired voice feature section, current tests and Windows commands. [RECIPE_IMPROVEMENTS_FILES.md](RECIPE_IMPROVEMENTS_FILES.md) lists the complete workspace changes. Earlier speech setup and evidence follow below.
+
+# Local AI and speech implementation
+
+Read [MASTER_WINDOWS_SETUP.md](MASTER_WINDOWS_SETUP.md) for Windows commands and model licenses, [MASTER_IMPLEMENTATION_REPORT.md](MASTER_IMPLEMENTATION_REPORT.md) for current test evidence and limitations, and [MASTER_CHANGED_FILES.md](MASTER_CHANGED_FILES.md) for the complete change list. Local speech has been exercised with real browser audio; full-length Ollama translation is still subject to the limitations in the report.
+
+# Earlier correction: AI jobs and audio
 
 Read **AUDIO_AND_AI_FIXES.md** for the admin timeout and silent-playback correction. Current validation: 59 backend tests and 10 browser checks.
 

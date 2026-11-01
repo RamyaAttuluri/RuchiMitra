@@ -1,0 +1,28 @@
+{
+  "cases": [
+    {
+      "language": "te",
+      "mode": "continue",
+      "steps": 6,
+      "requests": 6,
+      "engines": [
+        "piper"
+      ],
+      "voices": [
+        "te_IN-padmavathi-medium"
+      ],
+      "completed": true,
+      "maxSimultaneousAudio": 1,
+      "actualAudio": true
+    }
+  ],
+  "controls": [
+    "pause/resume step 3",
+    "read one step",
+    "next/previous",
+    "stop",
+    "language switch cancels old audio",
+    "related recipe navigation cancels audio"
+  ],
+  "physicalAudibility": "Human listening still required. Headless Edge verifies real target-language audio decoding and media events."
+}
