@@ -11,7 +11,7 @@ type Draft=Pick<RecipeData,'name'|'description'|'cuisine'|'category'|'difficulty
 const T_LANGS:{code:TLang;label:string}[]=[{code:'te',label:'Telugu · తెలుగు'},{code:'hi',label:'Hindi · हिन्दी'}];
 const newIngredient=():Ingredient=>({name:'',quantity:null,unit:''});
 const newStep=():CookingStep=>({title:'',text:'',minutes:null});
-const emptyDraft=():Draft=>({name:'',description:'',cuisine:'Indian',category:'Vegetarian',difficulty:'Easy',prepMinutes:10,cookMinutes:20,servings:4,imageUrl:'',tip:'',tags:[],ingredients:[newIngredient(),newIngredient()],steps:[newStep(),newStep()],status:'DRAFT'});
+const emptyDraft=():Draft=>({name:'',description:'',cuisine:'Indian',category:'Vegetarian',difficulty:'Easy',prepMinutes:10,cookMinutes:20,servings:2,imageUrl:'',tip:'',tags:[],ingredients:[newIngredient(),newIngredient()],steps:[newStep(),newStep()],status:'DRAFT'});
 const toTDraft=(t:Translation|undefined,d:Draft):TDraft=>({name:t?.name??'',intro:t?.intro??'',description:t?.description??'',tip:t?.tip??'',
  ingredients:d.ingredients.map((_,i)=>t?.ingredients[i]??''),steps:d.steps.map((_,i)=>({title:t?.steps[i]?.title??'',text:t?.steps[i]?.text??''}))});
 const move=<T,>(list:T[],from:number,to:number)=>{const copy=[...list];const [item]=copy.splice(from,1);copy.splice(to,0,item);return copy};
@@ -39,8 +39,8 @@ export function AdminRecipeEditor({recipeId,onClose,onSaved}:{recipeId:string|nu
  },[recipeId]);
 
  const field=<K extends keyof Draft>(key:K,value:Draft[K])=>setDraft(p=>({...p,[key]:value}));
- const ingredientField=(i:number,key:keyof Ingredient,value:string|number|null)=>setDraft(p=>({...p,ingredients:p.ingredients.map((x,n)=>n===i?{...x,[key]:value}:x)}));
- const stepField=(i:number,key:keyof CookingStep,value:string|number|null)=>setDraft(p=>({...p,steps:p.steps.map((x,n)=>n===i?{...x,[key]:value}:x)}));
+ const ingredientField=(i:number,key:keyof Ingredient,value:string|number|boolean|null)=>setDraft(p=>({...p,ingredients:p.ingredients.map((x,n)=>n===i?{...x,[key]:value}:x)}));
+ const stepField=(i:number,key:keyof CookingStep,value:string|number|boolean|null)=>setDraft(p=>({...p,steps:p.steps.map((x,n)=>n===i?{...x,[key]:value}:x)}));
  // Structural edits are mirrored into both translations so their rows stay aligned with the English rows.
  const mirror=(fn:(t:TDraft)=>TDraft)=>setTrans(p=>({te:fn(p.te),hi:fn(p.hi)}));
  const addIngredient=()=>{field('ingredients',[...draft.ingredients,newIngredient()]);mirror(t=>({...t,ingredients:[...t.ingredients,'']}))};
@@ -108,6 +108,7 @@ export function AdminRecipeEditor({recipeId,onClose,onSaved}:{recipeId:string|nu
     <label>Ingredient<input required maxLength={100} value={ing.name} onChange={e=>ingredientField(i,'name',e.target.value)} placeholder="e.g. Paneer"/></label>
     <label>Quantity<input type="number" step="any" min="0" value={ing.quantity??''} onChange={e=>ingredientField(i,'quantity',e.target.value===''?null:Number(e.target.value))} placeholder="To taste"/></label>
     <label>Unit<input maxLength={30} value={ing.unit} onChange={e=>ingredientField(i,'unit',e.target.value)} placeholder="g, tbsp, cups"/></label>
+    <div className="adm-ingredient-flags"><label><input type="checkbox" checked={Boolean(ing.optional)} onChange={e=>ingredientField(i,'optional',e.target.checked)}/> Optional ingredient</label><label><input type="checkbox" checked={ing.scalable!==false} onChange={e=>ingredientField(i,'scalable',e.target.checked)}/> Scale with servings</label></div>
     <div className="adm-row-tools"><button type="button" aria-label={`Move ingredient ${i+1} up`} disabled={i===0} onClick={()=>moveIngredient(i,i-1)}><ArrowUp size={15}/></button><button type="button" aria-label={`Move ingredient ${i+1} down`} disabled={i===draft.ingredients.length-1} onClick={()=>moveIngredient(i,i+1)}><ArrowDown size={15}/></button><button type="button" className="danger" aria-label={`Remove ingredient ${i+1}`} disabled={draft.ingredients.length<=2} onClick={()=>removeIngredient(i)}><Trash2 size={15}/></button></div>
    </div>)}
    <button type="button" className="adm-btn adm-btn-soft" onClick={addIngredient}><Plus size={16}/> Add ingredient</button>
@@ -117,12 +118,13 @@ export function AdminRecipeEditor({recipeId,onClose,onSaved}:{recipeId:string|nu
     <div className="adm-step-top"><strong>Step {i+1}</strong><div className="adm-row-tools"><button type="button" aria-label={`Move step ${i+1} up`} disabled={i===0} onClick={()=>moveStep(i,i-1)}><ArrowUp size={15}/></button><button type="button" aria-label={`Move step ${i+1} down`} disabled={i===draft.steps.length-1} onClick={()=>moveStep(i,i+1)}><ArrowDown size={15}/></button><button type="button" className="danger" aria-label={`Remove step ${i+1}`} disabled={draft.steps.length<=2} onClick={()=>removeStep(i)}><Trash2 size={15}/></button></div></div>
     <div className="adm-form-grid adm-step-grid"><label>Step title<input required minLength={2} maxLength={120} value={s.title} onChange={e=>stepField(i,'title',e.target.value)} placeholder="e.g. Toast the spices"/></label>
     <label>Duration (min)<input type="number" min={0} max={600} value={s.minutes??''} onChange={e=>stepField(i,'minutes',e.target.value===''?null:Number(e.target.value))} placeholder="Optional"/></label>
+    <label>Heat level<input maxLength={80} value={s.heatLevel||''} onChange={e=>stepField(i,'heatLevel',e.target.value)} placeholder="e.g. medium-low"/></label><label>Temperature<input maxLength={80} value={s.temperature||''} onChange={e=>stepField(i,'temperature',e.target.value)} placeholder="e.g. 180 C"/></label>
     <label className="adm-wide">Instruction<textarea required minLength={10} maxLength={1200} rows={3} value={s.text} onChange={e=>stepField(i,'text',e.target.value)}/></label></div>
    </div>)}
    <button type="button" className="adm-btn adm-btn-soft" onClick={addStep}><Plus size={16}/> Add step</button>
   </fieldset>
   <fieldset className="adm-fieldset"><legend>Translations (optional)</legend>
-   <p className="adm-hint">English is the main content. Add Telugu or Hindi here to control the wording; otherwise the site can translate on demand when Gemini is configured. Rows follow the English ingredient and step order.</p>
+   <p className="adm-hint">English is the main content. Add Telugu or Hindi here to control the wording; otherwise the site can translate on demand using the configured backend AI provider. Rows follow the English ingredient and step order.</p>
    {T_LANGS.map(({code,label})=>{const t=trans[code];return <details key={code} className="adm-translation" open={enabled[code]}>
     <summary><label className="adm-switch" onClick={e=>e.stopPropagation()}><input type="checkbox" checked={enabled[code]} onChange={e=>setEnabled(p=>({...p,[code]:e.target.checked}))}/> {label}</label><span>{enabled[code]?'Included':'Not included'}</span></summary>
     <div className="adm-form-grid" lang={code}>

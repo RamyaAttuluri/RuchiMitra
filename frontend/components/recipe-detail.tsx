@@ -3,16 +3,20 @@ import {apiFetch,API_URL} from '@/lib/api';
 
 import Link from 'next/link';import {useEffect,useRef,useState} from 'react';import {ArrowLeft,Check,ChefHat,ChevronDown,Clock3,Flame,Heart,Leaf,ListPlus,Minus,Plus,Printer,Timer,Users,Volume2,UtensilsCrossed} from 'lucide-react';
 import type {RecipeData} from '@/lib/types';import {useRecipeVoice} from '@/hooks/use-recipe-voice';import {formatQty} from '@/lib/recipes';import {VoicePlayer} from './voice-player';import {FoodImage} from './food-image';import {RelatedRecipes} from './related-recipes';
+import {Download} from 'lucide-react';import {RecipeDownloadDialog} from './recipe-download-dialog';
 export function RecipeDetail({recipe}:{recipe:RecipeData}){
- const voice=useRecipeVoice(recipe);const translated=voice.activeTranslation;const lang=translated?voice.lang:'en';
- const [servings,setServings]=useState(recipe.servings);const [checked,setChecked]=useState<number[]>([]);const [done,setDone]=useState<number[]>([]);
+ const [servings,setServings]=useState(recipe.servings);
+ const [downloadOpen,setDownloadOpen]=useState(false);
+ useEffect(()=>setServings(recipe.servings),[recipe.id]);
+ const voice=useRecipeVoice(recipe,servings);const translated=voice.activeTranslation;const lang=translated?voice.lang:'en';
+ const [checked,setChecked]=useState<number[]>([]);const done=voice.done;
  const [favourite,setFavourite]=useState(false);const [message,setMessage]=useState('');const [busy,setBusy]=useState(false);const [ingredientsOpen,setIngredientsOpen]=useState(true);
  const stepRefs=useRef<(HTMLElement|null)[]>([]);
  useEffect(()=>{apiFetch(`${API_URL}/favorites`).then(r=>r.ok?r.json():null).then(d=>setFavourite(Boolean(d?.recipes?.some((r:RecipeData)=>r.id===recipe.id)))).catch(()=>{})},[recipe.id]);
  // Keep the step being narrated in view.
- useEffect(()=>{if(voice.status==='speaking'&&voice.segment!==null&&voice.segment>=0)stepRefs.current[voice.segment]?.scrollIntoView({behavior:'smooth',block:'nearest'})},[voice.segment,voice.status]);
+ useEffect(()=>{if(voice.status==='playing'&&voice.segment!==null&&voice.segment>=0)stepRefs.current[voice.segment]?.scrollIntoView({behavior:'smooth',block:'nearest'})},[voice.segment,voice.status]);
  async function toggleFavourite(){setBusy(true);setMessage('');try{const result=await apiFetch(favourite?`${API_URL}/favorites/${recipe.id}`:`${API_URL}/favorites`,{method:favourite?'DELETE':'POST',headers:{'Content-Type':'application/json'},...(!favourite?{body:JSON.stringify({recipeId:recipe.id})}:{})});const d=await result.json();if(!result.ok)throw Error(d.error||'Could not save recipe');setFavourite(!favourite)}catch(e){setMessage(e instanceof Error?e.message:'Please sign in first')}finally{setBusy(false)}}
- async function addShopping(){setMessage('');try {const missing=recipe.ingredients.filter((_,i)=>!checked.includes(i)).map(i=>({name:i.name,amount:i.quantity===null?'to taste':`${formatQty(i.quantity*servings/recipe.servings)} ${i.unit}`.trim()}));if(!missing.length){setMessage('All your ingredients are already checked!');return}const res=await apiFetch(`${API_URL}/shopping-list`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:missing})});const data=await res.json();setMessage(res.ok?'Added ingredients to your shopping list.':data.error||'Could not add ingredients')} catch(e){setMessage(e instanceof Error?e.message:'Could not connect to backend. Start backend on port 5000.')}}
+ async function addShopping(){setMessage('');try {const missing=recipe.ingredients.filter((_,i)=>!checked.includes(i)).map(i=>({name:i.name,amount:i.quantity===null?'to taste':`${formatQty((i.scalable===false?i.quantity:i.quantity*servings/recipe.servings))} ${i.unit}`.trim()}));if(!missing.length){setMessage('All your ingredients are already checked!');return}const res=await apiFetch(`${API_URL}/shopping-list`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items:missing})});const data=await res.json();setMessage(res.ok?'Added ingredients to your shopping list.':data.error||'Could not add ingredients')} catch(e){setMessage(e instanceof Error?e.message:'Could not connect to backend. Start backend on port 5000.')}}
  const toggle=(list:number[],i:number,on:boolean)=>on?[...list,i]:list.filter(x=>x!==i);
  const tip=translated?.tip||recipe.tip;
  return <main className="recipe-page container">
@@ -25,7 +29,7 @@ export function RecipeDetail({recipe}:{recipe:RecipeData}){
    <dl className="recipe-facts">
     <div><dt><Timer size={16}/> Prep</dt><dd>{recipe.prepMinutes} min</dd></div>
     <div><dt><Clock3 size={16}/> Cook</dt><dd>{recipe.cookMinutes} min</dd></div>
-    <div><dt><Users size={16}/> Serves</dt><dd>{recipe.servings}</dd></div>
+    <div><dt><Users size={16}/> Serves</dt><dd>{servings}</dd></div>
     <div><dt><ChefHat size={16}/> Level</dt><dd>{recipe.difficulty}</dd></div>
     <div><dt>{recipe.category==='Non-Vegetarian'?<Flame size={16}/>:<Leaf size={16}/>} Diet</dt><dd>{recipe.category}</dd></div>
    </dl>
@@ -33,6 +37,7 @@ export function RecipeDetail({recipe}:{recipe:RecipeData}){
     <button className={`btn btn-dark ${favourite?'is-saved':''}`} disabled={busy} onClick={toggleFavourite}><Heart size={17} fill={favourite?'currentColor':'none'}/>{favourite?'Saved to favourites':'Save to favourites'}</button>
     <a className="outline-button" href="#cook-along"><Volume2 size={17}/> Start cooking</a>
     <button className="outline-button" onClick={()=>window.print()}><Printer size={17}/> Print</button>
+    <button className="outline-button download-recipe-button" onClick={()=>setDownloadOpen(true)}><Download size={17}/> Download Recipe</button>
    </div>
    {message&&<p className="inline-feedback" role="status">{message} {message.toLowerCase().includes('sign in')&&<Link href="/login">Sign in</Link>}</p>}
   </div>
@@ -51,7 +56,7 @@ export function RecipeDetail({recipe}:{recipe:RecipeData}){
      <div className="serving-control"><span>Servings</span><div><button aria-label="Decrease servings" onClick={()=>setServings(v=>Math.max(1,v-1))}><Minus size={15}/></button><strong aria-live="polite">{servings}</strong><button aria-label="Increase servings" onClick={()=>setServings(v=>Math.min(50,v+1))}><Plus size={15}/></button></div></div>
      <div className="ingredient-list">{recipe.ingredients.map((ing,i)=><label key={i} className={`ingredient-item ${checked.includes(i)?'checked':''}`}><input type="checkbox" checked={checked.includes(i)} onChange={e=>setChecked(p=>toggle(p,i,e.target.checked))}/><span className="custom-check"><Check size={13}/></span>
       <span className="ingredient-name">{translated?.ingredients?.[i]?<><span lang={lang}>{translated.ingredients[i]}</span><small lang="en">{ing.name}</small></>:ing.name}</span>
-      <span className="ingredient-quantity">{ing.quantity===null?'to taste':`${formatQty(ing.quantity*servings/recipe.servings)} ${ing.unit}`}</span></label>)}</div>
+      <span className="ingredient-quantity">{ing.quantity===null?'to taste':`${formatQty((ing.scalable===false?ing.quantity:ing.quantity*servings/recipe.servings))} ${ing.unit}`}</span></label>)}</div>
      <button className="shopping-button" onClick={addShopping}><ListPlus size={17}/> Add missing to shopping list</button>
      <div className="mini-hint">{checked.length} of {recipe.ingredients.length} ingredients ready</div>
     </div>
@@ -59,14 +64,14 @@ export function RecipeDetail({recipe}:{recipe:RecipeData}){
   </aside>
 
   <section className="cook-main" aria-labelledby="steps-title">
-   <VoicePlayer recipe={recipe} voice={voice}/><p className="mini-hint">Narration and translated ingredient text use the original {recipe.servings} servings. The quantity column reflects your selected servings.</p>
+   <VoicePlayer recipe={recipe} voice={voice}/><p className="mini-hint">Ingredient narration follows selected servings after updated quantities are translated. Cooking steps match the text below.</p>
    <div className="steps-heading"><div><span className="eyebrow">LET&apos;S GET COOKING</span><h2 id="steps-title">Step by <em>step.</em></h2></div><span>{done.length} of {recipe.steps.length} done</span></div>
-   <ol className="step-list">{recipe.steps.map((st,i)=>{const speaking=voice.segment===i&&voice.status==='speaking';return <li key={i} ref={el=>{stepRefs.current[i]=el}} className={`step-item ${speaking?'current-spoken':''} ${voice.index===i?'is-current':''} ${done.includes(i)?'is-done':''}`}>
+   <ol className="step-list">{recipe.steps.map((st,i)=>{const speaking=voice.segment===i&&voice.status==='playing';return <li key={i} ref={el=>{stepRefs.current[i]=el}} className={`step-item ${speaking?'current-spoken':''} ${voice.index===i?'is-current':''} ${done.includes(i)?'is-done':''}`}>
     <div className="step-number">{done.includes(i)?<Check size={18}/>:String(i+1).padStart(2,'0')}</div>
     <div className="step-body"><div className="step-top"><h3 lang={translated?.steps[i]?lang:'en'}>{translated?.steps[i]?.title||st.title}</h3>{st.minutes!==null&&<span><Clock3 size={13}/> {st.minutes} min</span>}</div>
      <p lang={translated?.steps[i]?lang:'en'}>{translated?.steps[i]?.text||st.text}</p>
      <div className="step-actions"><button onClick={()=>voice.readStep(i)} disabled={!voice.canPlay}><Volume2 size={14}/> {speaking?'Reading…':'Read step'}</button>
-      <label><input type="checkbox" checked={done.includes(i)} onChange={e=>setDone(p=>toggle(p,i,e.target.checked))}/> Mark done</label></div></div>
+      <label><input type="checkbox" checked={done.includes(i)} onChange={e=>voice.markDone(i,e.target.checked)}/> Mark done</label></div></div>
    </li>})}</ol>
    {done.length===recipe.steps.length&&<div className="cook-complete"><UtensilsCrossed size={20}/> All steps done. Enjoy your {recipe.name}!</div>}
    {tip&&<section className="chef-tip"><span className="tip-icon">✳</span><div><h3>A little tip from our kitchen</h3><p lang={translated?.tip?lang:'en'}>{tip}</p></div></section>}
@@ -75,5 +80,6 @@ export function RecipeDetail({recipe}:{recipe:RecipeData}){
  {/* Order: steps → tip → related recipes → final CTA → footer. */}
  <RelatedRecipes slug={recipe.slug}/>
  <div className="recipe-end-cta"><Link className="btn btn-dark another-recipe" href="/search">Find your next recipe <span>↗</span></Link></div>
+ {downloadOpen&&<RecipeDownloadDialog recipe={recipe} servings={servings} onClose={()=>setDownloadOpen(false)} onSuccess={()=>setMessage('Your complete recipe PDF download has started. You can open it offline.')}/>}
  </main>
 }

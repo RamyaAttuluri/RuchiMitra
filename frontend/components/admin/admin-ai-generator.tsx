@@ -5,9 +5,11 @@ import {api} from '@/lib/api';import type {RecipeData} from '@/lib/types';
 
 const IDEAS=['Aloo Fry','Chicken Fry','Gongura Pappu','Kadai Paneer','Pepper Chicken','Sambar'];
 
-/** Type a dish name → Gemini writes the full recipe (ingredients, steps, timings, Telugu & Hindi) → saved as a draft and opened in the editor. */
-export function AdminAiGenerator({geminiReady,onGenerated}:{geminiReady:boolean;onGenerated:(r:RecipeData,translated:string[])=>void}){
- const [name,setName]=useState('');const [category,setCategory]=useState('');const [cuisine,setCuisine]=useState('');const [servings,setServings]=useState(4);const [notes,setNotes]=useState('');
+/** Type a dish name → Recipe AI writes the full recipe (ingredients, steps, timings, Telugu & Hindi) → saved as a draft and opened in the editor. */
+export function AdminAiGenerator({aiReady,onGenerated}:{aiReady:boolean;onGenerated:(r:RecipeData,translated:string[])=>void}){
+ const [name,setName]=useState('');const [category,setCategory]=useState('');const [cuisine,setCuisine]=useState('');const [servings,setServings]=useState(2);const [notes,setNotes]=useState('');
+ const [translationJobs,setTranslationJobs]=useState<{id:string;name:string}[]>([]);const [preparingTranslations,setPreparingTranslations]=useState(false);const [translationNotice,setTranslationNotice]=useState('');
+ async function precompute(){setPreparingTranslations(true);setTranslationNotice('');try{const data=await api<{jobs:{id:string;name:string}[];message:string}>('/admin/translations/precompute',{method:'POST',body:'{}'});setTranslationJobs(data.jobs);setTranslationNotice(data.message)}catch(error){setTranslationNotice(error instanceof Error?error.message:'Could not queue translations.')}finally{setPreparingTranslations(false)}}
  const [busy,setBusy]=useState(false);const [error,setError]=useState('');const [phase,setPhase]=useState('');const [jobId,setJobId]=useState('');const [partial,setPartial]=useState<RecipeData|null>(null);const [retryable,setRetryable]=useState(false);const generation=useRef(0);const mounted=useRef(true);const finished=useRef(false);
  useEffect(()=>{mounted.current=true;try{const saved=sessionStorage.getItem('admin-ai-job');if(saved){setJobId(saved);void watch(saved)}}catch{}return()=>{mounted.current=false;generation.current++}},[]);
  async function watch(id:string){
@@ -33,7 +35,10 @@ export function AdminAiGenerator({geminiReady,onGenerated}:{geminiReady:boolean;
  }
  return <form className="adm-card adm-ai" onSubmit={generate}>
   <div className="adm-card-head"><div><h2><Wand2 size={20}/> Generate a recipe with AI</h2><p>Type any dish. AI writes the description, every ingredient with quantities, step-by-step method with timings, a tip, and Telugu &amp; Hindi translations. It is saved as a <b>draft</b> so you can review and publish.</p></div></div>
-  {!geminiReady&&<p className="adm-alert" role="alert">Gemini is not configured. Add <code>GEMINI_API_KEY</code> to <code>backend\.env</code> (free key: aistudio.google.com/apikey) and restart the backend.</p>}
+  {!aiReady&&<p className="adm-alert" role="alert">Recipe AI is not configured. Check the backend provider settings and test the connection.</p>}
+  <div className="adm-save-bar"><button className="adm-btn adm-btn-soft" type="button" disabled={!aiReady||preparingTranslations} onClick={precompute}>{preparingTranslations?'Queuing missing translations…':'Prepare missing recipe translations'}</button><p>Translates published recipes one at a time. Existing translations stay intact; interrupted work can resume.</p></div>
+  {translationNotice&&<p role="status">{translationNotice}</p>}
+  {!!translationJobs.length&&<div className="adm-ai-ideas">{translationJobs.map(job=><button className="adm-chip" type="button" key={job.id} onClick={()=>{setJobId(job.id);try{sessionStorage.setItem('admin-ai-job',job.id)}catch{}void watch(job.id)}}>Check {job.name}</button>)}</div>}
   {busy&&<p role="status">{phase||'Queuing recipe'}… You can leave this page and return; work is saved on the server.</p>}
   {jobId&&!busy&&!finished.current&&<div><button type="button" className="adm-btn adm-btn-soft" onClick={()=>reconnect().catch(()=>{})}>{retryable?'Retry remaining work':'Check progress'}</button>{partial&&<button type="button" className="adm-btn adm-btn-soft" onClick={()=>onGenerated(partial,Object.keys(partial.translations))}>Review saved draft</button>}</div>}
   {error&&<p className="adm-alert" role="alert">{error}</p>}
@@ -45,6 +50,6 @@ export function AdminAiGenerator({geminiReady,onGenerated}:{geminiReady:boolean;
   </div>
   <label>Notes (optional)<input value={notes} maxLength={300} onChange={e=>setNotes(e.target.value)} placeholder="e.g. less spicy, no onion garlic, crispy" disabled={busy}/></label>
   <div className="adm-ai-ideas"><span>Try:</span>{IDEAS.map(i=><button type="button" key={i} className="adm-chip" disabled={busy} onClick={()=>setName(i)}>{i}</button>)}</div>
-  <div className="adm-save-bar"><button className="adm-btn adm-btn-primary" disabled={busy||!geminiReady||name.trim().length<3}>{busy?<LoaderCircle className="spin" size={16}/>:<Sparkles size={16}/>} {busy?'Working… see progress above':'Generate recipe'}</button></div>
+  <div className="adm-save-bar"><button className="adm-btn adm-btn-primary" disabled={busy||!aiReady||name.trim().length<3}>{busy?<LoaderCircle className="spin" size={16}/>:<Sparkles size={16}/>} {busy?'Working… see progress above':'Generate recipe'}</button></div>
  </form>;
 }

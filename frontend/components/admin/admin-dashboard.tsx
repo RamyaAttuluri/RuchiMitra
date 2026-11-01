@@ -21,8 +21,8 @@ export function AdminDashboard({me}:{me:AdminUser}){
  const [statsError,setStatsError]=useState('');
  const [refreshKey,setRefreshKey]=useState(0);
  const [flashMessage,setFlash]=useState('');
- const [geminiReady,setGeminiReady]=useState(true);
- useEffect(()=>{api<{settings:{gemini:boolean}}>('/admin/settings').then(d=>setGeminiReady(d.settings.gemini)).catch(()=>{})},[]);
+ const [aiReady,setAiReady]=useState(true);
+ useEffect(()=>{api<{settings:{aiConfigured:boolean}}>('/admin/settings').then(d=>setAiReady(d.settings.aiConfigured)).catch(()=>{})},[]);
  const loadStats=useCallback(()=>{api<{stats:Stats;cuisines:Count[];categories:Count[]}>('/admin/stats').then(d=>{setStats(d);setStatsError('')}).catch(e=>setStatsError(e.message))},[]);
  useEffect(()=>{loadStats()},[loadStats,refreshKey]);
  useEffect(()=>{const s=window.location.hash.slice(1) as Section;if(NAV.some(n=>n.id===s))setSection(s)},[]);
@@ -45,7 +45,7 @@ export function AdminDashboard({me}:{me:AdminUser}){
    {flashMessage&&<p className="adm-flash" role="status">{flashMessage}</p>}
    {section==='overview'&&<Overview data={stats} error={statsError} onGo={go}/>}
    {(section==='recipes'||section==='ai')&&(editing?editor(editing):<>
-    {section==='ai'&&<AdminAiGenerator geminiReady={geminiReady} onGenerated={(r,t)=>{setFlash(`“${r.name}” generated as a draft${t.includes('te')&&t.includes('hi')?' with Telugu & Hindi':t.length?' with '+t.map(l=>l==='te'?'Telugu':'Hindi').join(' & '):''}. Review it below, set Status to Published and save.`);changed();setEditing(r.id)}}/>}
+    {section==='ai'&&<AdminAiGenerator aiReady={aiReady} onGenerated={(r,t)=>{setFlash(`“${r.name}” generated as a draft${t.includes('te')&&t.includes('hi')?' with Telugu & Hindi':t.length?' with '+t.map(l=>l==='te'?'Telugu':'Hindi').join(' & '):''}. Review it below, set Status to Published and save.`);changed();setEditing(r.id)}}/>}
     {section==='ai'&&<p className="adm-hint">All AI recipes, from this generator and from users’ “Create with AI” search. Review ingredients and food-safety steps before publishing.</p>}
     <AdminRecipesTable key={section} source={section==='ai'?'AI':undefined} cuisines={cuisines} onEdit={setEditing} refreshKey={refreshKey} onChanged={changed} flash={setFlash}/></>)}
    {section==='add'&&editor(null)}
@@ -66,7 +66,7 @@ function Overview({data,error,onGo}:{data:{stats:Stats;categories:Count[];cuisin
   {label:'Total recipes',value:s.total,icon:BookOpen,hint:'Published + drafts'},{label:'Vegetarian',value:s.vegetarian+s.vegan,icon:Leaf,hint:s.vegan?`incl. ${s.vegan} vegan`:'Veg & vegan'},
   {label:'Non-vegetarian',value:s.nonVegetarian,icon:Flame,hint:'Meat, fish & egg'},{label:'Published',value:s.published,icon:CircleCheck,hint:'Visible to users'},
   {label:'Drafts',value:s.drafts,icon:FilePen,hint:s.archived?`${s.archived} archived`:'Hidden from users'},{label:'Registered users',value:s.users,icon:Users,hint:`${s.admins} admin${s.admins===1?'':'s'}`},
-  {label:'AI-generated',value:s.ai,icon:Sparkles,hint:'Created with Gemini'},
+  {label:'AI-generated',value:s.ai,icon:Sparkles,hint:'Created with recipe AI'},
  ];
  const max=Math.max(1,...data.cuisines.map(c=>c.count));
  return <>
@@ -117,15 +117,15 @@ function UsersPanel({me}:{me:AdminUser}){
 function SettingsPanel(){
  const [checking,setChecking]=useState(false);const [checkResult,setCheckResult]=useState('');
  async function checkAi(){setChecking(true);setCheckResult('');try{const d=await api<{message:string}>('/admin/ai/check',{method:'POST'});setCheckResult(d.message)}catch(e){setCheckResult(e instanceof Error?e.message:'Connection failed')}finally{setChecking(false)}}
- const [s,setS]=useState<{gemini:boolean;tts:string|null;passwordReset:boolean;frontendOrigin:string;environment:string}|null>(null);const [error,setError]=useState('');
+ const [s,setS]=useState<{gemini:boolean;aiConfigured:boolean;aiProvider:string;tts:string|null;passwordReset:boolean;frontendOrigin:string;environment:string}|null>(null);const [error,setError]=useState('');
  useEffect(()=>{api<{settings:NonNullable<typeof s>}>('/admin/settings').then(d=>setS(d.settings)).catch(e=>setError(e.message))},[]);
  if(error)return <p className="adm-alert" role="alert">{error}</p>;
  if(!s)return <div className="adm-card adm-loading"><LoaderCircle className="spin" size={18}/> Loading…</div>;
  const row=(ok:boolean,label:string,detail:string)=><li>{ok?<CircleCheck size={18} className="ok"/>:<CircleX size={18} className="off"/>}<span><strong>{label}</strong><small>{detail}</small></span><b>{ok?'Configured':'Not configured'}</b></li>;
  return <section className="adm-card"><div className="adm-card-head"><div><h2>Integrations</h2><p>Secrets live only in <code>backend/.env</code> and are never sent to the browser. Restart the backend after changing them.</p></div></div>
   <ul className="adm-settings">
-   {row(s.gemini,'Gemini AI','AI recipe creation and on-demand Telugu / Hindi translation (GEMINI_API_KEY).')}
-   {row(Boolean(s.tts),'Cloud narration fallback',s.tts?`Provider: ${s.tts==='google'?'Google Cloud Text-to-Speech':s.tts==='gemini'?'Gemini TTS':'Keyless Google Translate speech (best-effort; add GOOGLE_TTS_API_KEY for production)'}. Used when a browser voice fails.`:'Set GOOGLE_TTS_API_KEY (preferred) or GEMINI_API_KEY to read recipes aloud when the device has no working Telugu / Hindi voice.')}
+   {row(s.aiConfigured,'Recipe AI',`Configured provider: ${s.aiProvider}. Test the connection to verify it is running.`)}
+   {row(Boolean(s.tts),'Narration provider',`Selected provider: ${s.tts||'none'}. Check /api/tts/status for working engines and languages.`)}
    {row(s.passwordReset,'Password reset email','RESEND_API_KEY and RESET_FROM_EMAIL.')}
   </ul>
   <button className="adm-btn adm-btn-soft" disabled={checking||!s.gemini} onClick={checkAi}>{checking?'Checking…':'Test AI connection'}</button>{checkResult&&<p role="status">{checkResult}</p>}

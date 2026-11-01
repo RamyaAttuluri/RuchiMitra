@@ -14,6 +14,8 @@ const csp = [
  "frame-ancestors 'none'",
 ].join('; ');
 const nextConfig:NextConfig={
+ // Keep validation builds separate when a development server is using .next on Windows.
+ distDir:process.env.NEXT_BUILD_DIR||'.next',
  reactStrictMode:true,
  poweredByHeader:false,
  images:{remotePatterns:[{protocol:'https',hostname:'images.unsplash.com'}]},

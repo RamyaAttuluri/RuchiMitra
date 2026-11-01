@@ -1,5 +1,6 @@
 'use client';
 
+import {AnimatedVoiceFeatureSection} from '@/components/animated-voice-feature-section';
 import Link from 'next/link';import { ArrowRight,Heart,Mic2,Play,Search } from 'lucide-react';
 import {apiFetch,API_URL} from '@/lib/api';
 import {useCallback,useEffect,useRef,useState} from 'react';import type {RecipeData} from '@/lib/types';import {RecipeGrid} from '@/components/recipe-grid';import {SearchBox} from '@/components/search-box';import {HeroCarousel} from '@/components/hero-carousel';import {useScrollReveal} from '@/lib/motion';
@@ -14,9 +15,7 @@ export default function Home(){
  <section className="value-strip"><div className="container value-inner"><div><span className="value-icon"><Search size={22}/></span><span><strong>Find it fast</strong><small>Search recipes in seconds</small></span></div><div><span className="value-icon"><Mic2 size={22}/></span><span><strong>Cook with a voice guide</strong><small>English, తెలుగు & हिन्दी</small></span></div><div><span className="value-icon"><Heart size={22}/></span><span><strong>Save your favourites</strong><small>All your recipes in one place</small></span></div></div></section>
  <section className="discovery container" id="discover"><div className="section-header"><div><span className="eyebrow"><span className="tiny-star">✳</span> MADE FOR YOUR TABLE</span><h2>What sounds good <em>today?</em></h2><p>Traditional comfort food, with a little room to explore.</p></div><Link className="simple-link" href="/search">Explore all recipes <ArrowRight size={18}/></Link></div>
  {error?<div className="inline-error" role="alert"><p>{error}</p><button className="btn btn-dark" onClick={()=>load()}>Retry recipes</button></div>:loading?<p role="status">Loading recipes…</p>:<RecipeGrid recipes={recipes}/>} </section>
- <section className="feature-section"><div className="container feature-inner"><div className="feature-image reveal-up"><img src="/images/kitchen.jpg" alt="Home chef preparing food in a kitchen"/><div className="feature-sticker"><span>▶</span> HANDS-FREE COOKING</div></div><div className="feature-copy reveal-up"><span className="eyebrow"><span className="tiny-star">✳</span> MEET YOUR SOUS-CHEF</span><h2>A recipe that<br/><em>talks you through it.</em></h2><p>Chopping onions? Hands covered in flour? Just press play. Your kitchen companion reads every step aloud, in the language you love.</p>
- <div className="feature-benefits"><span><span className="check-circle">✓</span> Listen in English, Telugu or Hindi</span><span><span className="check-circle">✓</span> Pause, replay and skip any step</span><span><span className="check-circle">✓</span> Follow each step at your own pace</span></div>
- <Link className="btn btn-dark btn-large" href="/recipe/andhra-chicken-curry">Try voice cooking <Play size={17} fill="currentColor"/></Link></div></div></section>
+ <AnimatedVoiceFeatureSection/>
  <section className="bottom-cta container reveal-up"><div><span className="eyebrow">A LITTLE MAGIC IN EVERY MEAL</span><h2>What&apos;s in your kitchen?</h2><p>Tell us which ingredients you have. We'll find something lovely to make.</p></div><Link className="btn btn-cream btn-large" href="/pantry">Explore my pantry <ArrowRight size={18}/></Link><div className="cta-flower">✳</div></section>
  </main>
 }

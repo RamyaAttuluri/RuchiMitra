@@ -495,3 +495,82 @@ body>main p,.section-header p,.recipe-hero-copy>p,.page-header p,.card-content p
 @media(max-width:800px){.adm-ai-row{grid-template-columns:1fr 1fr}.adm-ai-name{grid-column:1/-1}}
 .back-link{color:var(--rm-accent)}
 .recipe-hero-image,.card-image,.recipe-banner{background:var(--rm-sand)}
+
+/* Account cookbook and recent searches. */
+.user-dashboard{--latte:#B7A89A;--mocha:#E8DCC6;--burgundy:#722F37}.user-dashboard .saved-tabs{flex-wrap:wrap}.user-dashboard .saved-tabs button.active{background:var(--burgundy);color:#fff}.recent-searches{max-width:760px;padding:clamp(20px,4vw,36px);background:var(--mocha);border:1px solid var(--latte);border-radius:20px}.recent-searches>p{color:#584632;line-height:1.7}.recent-searches ul{padding:0;list-style:none;display:grid;gap:10px;margin-block:24px}.recent-searches a{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 18px;background:#fffcf6;border-radius:10px;color:var(--burgundy);font-weight:700}.recent-searches a:focus-visible{outline:3px solid var(--burgundy);outline-offset:3px}
+
+.adm-row-edit:has(.adm-ingredient-flags){grid-template-columns:minmax(150px,2fr) minmax(65px,.7fr) minmax(65px,.7fr) minmax(145px,1fr) auto}.adm-ingredient-flags{display:grid;gap:8px;font-size:11px}.adm-ingredient-flags label{display:flex;align-items:center;gap:6px}.adm-ingredient-flags input[type=checkbox]{width:15px;min-height:15px;accent-color:var(--amber)}@media(max-width:850px){.adm-row-edit:has(.adm-ingredient-flags){grid-template-columns:1fr 1fr}.adm-ingredient-flags{grid-column:1/-1}}
+/* Complete recipe downloads use a native modal with keyboard focus containment. */
+.recipe-actions{flex-wrap:wrap}
+.recipe-download-dialog{width:min(590px,calc(100vw - 32px));max-height:calc(100dvh - 40px);overflow:auto;border:1px solid #e8dcc6;border-radius:22px;padding:34px;background:#fffdf9;color:#392d26;box-shadow:0 32px 110px #241b1840}
+.recipe-download-dialog::backdrop{background:#241b18a6;backdrop-filter:blur(5px)}
+.download-close{position:absolute;right:16px;top:16px;border:0;background:transparent;padding:9px;cursor:pointer;border-radius:50%}
+.download-emblem{display:grid;place-items:center;width:52px;height:52px;border-radius:16px;background:#f4e7e2;color:#722f37;margin-bottom:20px}
+.recipe-download-dialog h2{font-family:'Playfair Display',Georgia,serif;font-size:34px;line-height:1.15;margin:12px 0}
+.recipe-download-dialog>p{color:#75695f;line-height:1.7}
+.download-recipe-preview{display:flex;align-items:center;gap:14px;border-block:1px solid #e8dcc6;margin:22px 0;padding:18px 0}
+.download-recipe-preview>div:first-child:not(:last-child){flex-shrink:0;width:70px;height:70px;position:relative;overflow:hidden;border-radius:12px}
+.download-recipe-preview img{width:100%;height:100%;object-fit:cover}
+.download-recipe-preview>div:nth-child(2){flex:1;min-width:0}.download-recipe-preview strong{display:block;font-size:15px}.download-recipe-preview span{display:block;font-size:12px;color:#807267;margin-top:7px}
+.download-recipe-preview .pdf-format{display:flex;gap:4px;align-items:center;margin:0;color:#722f37;font-weight:700}
+.download-language{display:grid;gap:9px;font-size:13px;font-weight:600}.download-language select{width:100%;padding:12px 14px;border:1px solid #d9cbbc;border-radius:9px;background:white;min-height:48px}
+.download-confirmation{font-size:14px;margin-block:18px}.download-dialog-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:24px;flex-wrap:wrap}
+.download-progress{display:flex;gap:9px;font-size:13px;align-items:flex-start}.download-progress svg{flex-shrink:0;margin-top:3px}
+.download-error{border:1px solid #e3b9b3;border-radius:10px;padding:12px;background:#fff1ed;font-size:13px}.download-error .simple-link{display:block;margin-top:10px;color:#722f37}
+.recipe-download-dialog button:focus-visible,.recipe-download-dialog select:focus-visible{outline:3px solid #b48349;outline-offset:3px}
+/* Video-inspired editorial scene: an isolated dark photograph in a cream composition. */
+.voice-cinema{position:relative;isolation:isolate;overflow:hidden;background:#e8dcc6;padding:110px 0 120px}
+.cinema-layout{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr);gap:8%;align-items:center}
+.cinema-visual{position:relative;padding:22px 0 0 22px;min-width:0}.cinema-visual:before{content:'';position:absolute;inset:60px 24px -25px -20px;background:#722f37;transform:rotate(-5deg);z-index:-1}
+.cinema-photo{position:relative;overflow:hidden;border-radius:10px;background:#211e1b;aspect-ratio:4/5;isolation:isolate}.cinema-photo>img{width:100%;height:100%;object-fit:cover;filter:brightness(.75) saturate(.8);will-change:transform}
+.cinema-photo-shade{position:absolute;inset:0;background:linear-gradient(180deg,#211d1a05 40%,#211d1ac9)}
+.cinema-scene-number{position:absolute;top:-12px;left:22px;font-size:9px;letter-spacing:2px;color:#722f37}
+.cinema-image-caption{position:absolute;left:48px;bottom:25px;display:flex;gap:13px;align-items:center;color:#fff8ee;font-size:10px;letter-spacing:1.5px}.cinema-image-caption small{display:block;font-family:Georgia,serif;font-style:italic;letter-spacing:0;font-size:16px;margin-top:5px}
+.cinema-play{display:grid;place-items:center;border:1px solid #e8dcc699;border-radius:50%;width:40px;height:40px;flex-shrink:0}
+.cinema-food{position:absolute;top:12%;right:-38px;width:125px;aspect-ratio:1;border-radius:50%;padding:7px;background:#e8dcc6;box-shadow:8px 18px 35px #281f2633}.cinema-food img{width:100%;height:100%;border-radius:50%;object-fit:cover}
+.cinema-botanical{position:absolute;width:95px;height:170px;bottom:-58px;left:-32px;color:#b7a89a;transform:rotate(-20deg);pointer-events:none}
+.cinema-copy{position:relative;min-width:0}.cinema-eyebrow{color:#722f37;font-size:10px;letter-spacing:2.5px}
+.cinema-copy h2{font-family:'Playfair Display',Georgia,serif;font-size:clamp(48px,5vw,76px);font-weight:400;line-height:1.1;letter-spacing:-2px;margin:22px 0;color:#322921}
+.cinema-line{display:flex;flex-wrap:wrap;gap:0 .22em}.cinema-mask{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.16em;margin-bottom:-.16em;margin-right:.18em}.cinema-line .cinema-mask{margin-right:0}
+.cinema-word{display:inline-block;transform-origin:50% 100%}.cinema-copy h2 .cinema-accent{position:relative;font-weight:500;display:block;color:#722f37;padding-bottom:.18em}
+.cinema-accent-rule{position:absolute;left:0;bottom:0;width:64%;height:3px;background:linear-gradient(90deg,#722f37,#bf914b,transparent);transform-origin:left;pointer-events:none}
+.cinema-wave{display:flex;gap:3px;align-items:center;height:35px;color:#722f37;margin:26px 0}.cinema-wave i{width:2px;background:currentColor;border-radius:3px;display:block;transform-origin:center}.cinema-wave>span{font-size:8px;letter-spacing:1.4px;margin-left:12px;color:#7a6052}
+.cinema-support{max-width:450px;font-size:15px;line-height:1.9;color:#66594e;margin:22px 0}
+.cinema-benefits{padding:0;list-style:none;margin:24px 0 32px;display:grid;gap:14px}.cinema-benefits li{display:flex;gap:11px;align-items:center;font-size:13px;color:#4c4036}.cinema-benefits svg{color:#722f37;border:1px solid #b7a89a;border-radius:50%;padding:2px;width:20px;height:20px}
+.cinema-link{position:relative;transition:background .2s,box-shadow .2s}.cinema-link:hover{box-shadow:0 8px 25px #722f3720}.cinema-link svg{transition:transform .2s}.cinema-link:hover svg{transform:translate(2px,-2px)}
+.cinema-background-word{position:absolute;right:-.02em;bottom:-.23em;font-family:Georgia,serif;font-size:clamp(170px,26vw,400px);font-style:italic;letter-spacing:-.07em;color:#b7a89a25;z-index:0;pointer-events:none}
+@media(max-width:1000px){.voice-cinema{padding:85px 0 95px}.cinema-layout{gap:7%}.cinema-copy h2{font-size:clamp(42px,5.5vw,60px);letter-spacing:-1.5px}.cinema-food{width:90px;right:-22px}.cinema-image-caption{left:38px;bottom:18px}.cinema-image-caption small{font-size:13px}.cinema-wave>span{font-size:7px;letter-spacing:.5px}}
+@media(max-width:700px){.voice-cinema{padding:62px 0 72px}.cinema-layout{grid-template-columns:1fr;gap:58px}.cinema-visual{max-width:440px;width:90%;margin:auto}.cinema-photo{aspect-ratio:5/4}.cinema-copy h2{font-size:clamp(43px,11vw,64px);max-width:510px}.cinema-food{width:82px;right:-24px;top:5%}.cinema-botanical{height:120px;bottom:-39px}.cinema-copy .cinema-support{max-width:none}.cinema-wave{margin:22px 0}.cinema-background-word{font-size:190px;bottom:-40px}.recipe-download-dialog{padding:25px 20px}.recipe-download-dialog h2{font-size:29px}.download-recipe-preview .pdf-format{display:none}.download-dialog-actions>button{flex:1;justify-content:center}}
+@media(prefers-reduced-motion:reduce){.cinema-photo>img{will-change:auto}.cinema-link,.cinema-link svg{transition:none}.cinema-word,.cinema-food,.cinema-botanical{transform:none!important;opacity:1!important}}
+@media print{.voice-cinema,.recipe-download-dialog,.download-recipe-button{display:none!important}}
+@media print{
+ .cook-sidebar{position:static!important;max-height:none!important;overflow:visible!important}
+ .ingredients-panel.is-collapsed .ingredients-body{display:block!important}
+ .ingredients-panel{break-inside:auto!important}.ingredient-item{break-inside:avoid}
+ .ingredient-list{max-height:none!important;overflow:visible!important}
+ .recipe-end-cta,.related-section,.mini-hint{display:none!important}
+}
+/* The reference's changing food scenes keep moving while this section is visible. */
+.motion-visual{padding:0;min-width:0}.motion-visual:before{inset:38px 18px 55px -18px;transform:rotate(-4deg)}
+.motion-visual .cinema-scene-number{left:0;top:-25px;font-size:8px;letter-spacing:1.7px}
+.motion-stage{position:relative;overflow:hidden;isolation:isolate;aspect-ratio:4/5;border-radius:12px;color:#fff4dc;background:radial-gradient(ellipse at 55% 42%,#64453270 0,transparent 58%),linear-gradient(145deg,#171b16,#271c1c 62%,#361d20);box-shadow:0 22px 55px #38282225}
+.motion-kitchen{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.085;filter:grayscale(1)}
+.motion-stage-label{position:absolute;top:27px;left:27px;font-size:10px;line-height:1.4;font-weight:700;letter-spacing:2px;z-index:7}
+.motion-orbit{position:absolute;width:91%;aspect-ratio:1;left:5%;top:15%;border:1px solid #dacaa12e;border-radius:50%;pointer-events:none}.motion-orbit:before{content:'';position:absolute;inset:18px;border:1px dashed #dacaa124;border-radius:50%}
+.motion-scene{position:absolute;inset:0;visibility:hidden;opacity:0}.motion-scene-0{visibility:visible;opacity:1}
+.motion-scene-caption{position:absolute;top:14%;left:27px;z-index:6;max-width:80%}.motion-scene-caption>span{display:block;font-size:8px;letter-spacing:2px;color:#dfbe85}.motion-scene-caption small{display:block;margin-top:6px;font-family:Georgia,serif;font-style:italic;font-size:15px;color:#fff2db}
+.motion-dish{position:absolute;width:72%;aspect-ratio:1;left:14%;top:22%;border-radius:50%;border:9px solid #d6c6a7;background:#d6c6a7;overflow:hidden;box-shadow:0 30px 45px #0007,0 0 0 1px #fff4}.motion-dish img{width:100%;height:100%;object-fit:cover}
+.motion-scene-word{position:absolute;left:0;bottom:12%;width:100%;text-align:center;font-family:'Playfair Display',Georgia,serif;font-size:clamp(66px,7vw,108px);font-weight:600;line-height:1.3;letter-spacing:-5px;color:#f5e3bb;z-index:6;text-shadow:0 7px 20px #0007;pointer-events:none}
+.motion-seasoning{position:absolute;inset:0;z-index:5;pointer-events:none}.motion-herb{position:absolute;width:65px;height:100px;color:#6e8d50;filter:drop-shadow(0 9px 5px #0006)}.herb-0{right:5%;top:20%;rotate:35deg}.herb-1{left:1%;top:40%;rotate:-42deg}.herb-2{right:7%;bottom:24%;rotate:150deg;width:44px}
+.motion-seed{position:absolute;width:5px;height:11px;border-radius:80% 15% 80% 15%;background:#d7a35b;box-shadow:0 4px 7px #0007;rotate:30deg}.seed-0{left:13%;top:26%}.seed-1{right:17%;top:27%}.seed-2{left:5%;top:58%}.seed-3{right:9%;top:56%}.seed-4{left:22%;bottom:24%}.seed-5{right:22%;bottom:24%}.seed-6{left:41%;top:19%}.seed-7{right:12%;top:42%;background:#a84a32}.seed-8{left:15%;bottom:35%;background:#a84a32}
+.motion-stage-footer{position:absolute;left:27px;right:27px;bottom:24px;z-index:8;display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:16px;border-top:1px solid #dacaa134}.motion-stage-footer>span{font-size:8px;letter-spacing:1px;color:#d6c6a7}
+.motion-mini-wave{display:flex;align-items:center;gap:3px;height:25px;color:#dfbe85}.motion-mini-wave i{width:2px;border-radius:2px;background:currentColor;transform-origin:center}
+.motion-toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:17px 0 0;color:#722f37;min-height:32px}.motion-toolbar>span{font-family:Georgia,serif;font-style:italic;font-size:13px}.motion-toolbar>div{display:flex;gap:5px}.motion-toolbar button{display:flex;align-items:center;gap:5px;padding:7px 8px;border:1px solid #722f3740;border-radius:20px;background:transparent;font-size:10px;color:#722f37}.motion-toolbar button:hover:not(:disabled){background:#722f37;color:#fff8ed}
+@media(max-width:1000px){.motion-scene-word{font-size:clamp(62px,9vw,86px);letter-spacing:-3px}.motion-herb{width:45px;height:75px}.motion-toolbar{align-items:flex-start;flex-wrap:wrap}.motion-visual .cinema-scene-number{letter-spacing:1px}.motion-dish{border-width:6px}}
+@media(max-width:700px){.motion-visual{width:100%;max-width:440px}.motion-stage{aspect-ratio:4/4.7}.motion-visual:before{inset:30px 18px 65px -10px}.motion-stage-label{top:20px;left:20px;font-size:9px}.motion-scene-caption{left:20px;top:15%}.motion-scene-caption small{font-size:13px}.motion-dish{top:23%;width:74%;left:13%}.motion-scene-word{font-size:clamp(68px,20vw,98px);bottom:11%}.motion-stage-footer{left:20px;right:20px;bottom:18px}.motion-stage-footer>span{font-size:7px;letter-spacing:.3px}.motion-toolbar>span{font-size:12px}.cinema-layout{gap:66px}}
+@media(prefers-reduced-motion:reduce){.motion-scene{visibility:hidden!important;opacity:0!important}.motion-scene-0{visibility:visible!important;opacity:1!important}.motion-dish,.motion-scene-word,.motion-herb,.motion-orbit,.motion-mini-wave i,.cinema-accent-rule{transform:none!important}.motion-toolbar button{display:none}}
+.voice-guided-mode{margin:16px 0;padding:14px 16px;border:1px solid #e5d9cb;border-radius:12px;background:#fffaf3}
+.voice-guided-mode label{display:flex;gap:10px;align-items:center;font-weight:700;color:#762f3a;cursor:pointer}
+.voice-guided-mode input{accent-color:#762f3a;width:18px;height:18px}
+.voice-guided-mode p{font-size:13px;line-height:1.6;margin:8px 0 12px;color:#73685c}
+.voice-current .step-duration{font-weight:700;color:#762f3a;font-size:13px}
