@@ -14,7 +14,7 @@ try{
  if(password&&password.length<12)throw Error('ADMIN_PASSWORD must be at least 12 characters.');
  if(process.env.NODE_ENV==='production'&&(!email||!password||email==='admin@recipefinder.com'||password==='RecipeAdminLocal@2026'))throw Error('Production requires your own ADMIN_EMAIL and ADMIN_PASSWORD. Replace the demo credentials.');
  const prisma=path.join(path.dirname(require.resolve('prisma/package.json')),'build','index.js');
- if(process.argv.includes('--generate'))run([prisma,'generate']);
+ if(process.argv.includes('--generate'))run([path.join(backendRoot,'scripts','generate-client.mjs')]);
  run([path.join(backendRoot,'scripts','ensure-db.mjs')]);
  run([prisma,'migrate','deploy']);
  run(['--import','tsx',path.join(backendRoot,'prisma','seed.ts')]);

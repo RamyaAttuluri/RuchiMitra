@@ -1,0 +1,10 @@
+# Python 3.10 only for the neural inference environment. eSpeak mode uses the standard library.
+# Install IndicF5 separately from the reviewed upstream checkout; see LOCAL_AI_WINDOWS.md.
+numpy==1.26.4
+soundfile==0.13.1
+transformers==4.49.0
+torch==2.6.0
+torchaudio==2.6.0
+sentencepiece==0.2.0
+protobuf==5.29.5
+accelerate==1.4.0

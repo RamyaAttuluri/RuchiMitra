@@ -7,16 +7,18 @@
     "dev": "node --import tsx --watch src/server.ts",
     "build": "tsc -p tsconfig.json",
     "start": "node dist/src/server.js",
-    "db:generate": "prisma generate",
+    "db:generate": "node scripts/generate-client.mjs",
     "db:push": "node scripts/ensure-db.mjs && prisma db push",
     "db:seed": "node --import tsx prisma/seed.ts",
     "setup": "node scripts/bootstrap.mjs --generate",
-    "test": "node --import tsx --test tests/*.test.ts",
+    "test": "node scripts/test.mjs",
     "audit:prod": "npm audit --omit=dev",
     "admin:reset": "node --import tsx prisma/admin-reset.ts",
     "db:deploy": "node scripts/ensure-db.mjs && prisma migrate deploy",
     "predev": "node scripts/bootstrap.mjs --generate",
-    "prestart": "node scripts/bootstrap.mjs"
+    "prestart": "node scripts/bootstrap.mjs",
+    "admin:check": "node --import tsx scripts/admin-check.ts",
+    "verify:local-ai": "node --import tsx scripts/verify-local-ai.ts"
   },
   "dependencies": {
     "@prisma/client": "6.19.0",
@@ -27,6 +29,7 @@
     "express": "4.22.3",
     "express-rate-limit": "8.7.1",
     "helmet": "8.1.0",
+    "playwright-core": "1.64.1",
     "zod": "4.6.7"
   },
   "devDependencies": {

@@ -1,0 +1,4 @@
+{
+  "te": {"audio": "references/authorized-telugu.wav", "transcript": "REPLACE WITH THE EXACT TELUGU TRANSCRIPT", "authorized": false, "license": "REPLACE WITH AUTHORIZATION OR LICENSE"},
+  "hi": {"audio": "references/authorized-hindi.wav", "transcript": "REPLACE WITH THE EXACT HINDI TRANSCRIPT", "authorized": false, "license": "REPLACE WITH AUTHORIZATION OR LICENSE"}
+}

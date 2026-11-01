@@ -1,0 +1,8 @@
+# Separate Linux/WSL Python 3.10 environment; do not combine with IndicF5 requirements.
+numpy==2.2.6
+torch==2.8.0
+transformers==4.55.4
+sentencepiece==0.2.0
+protobuf==5.29.5
+accelerate==1.10.1
+indictranstoolkit==1.1.1

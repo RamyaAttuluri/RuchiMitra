@@ -1,0 +1,3 @@
+[
+  {"id":"te_IN-padmavathi-medium","language":"te","model":"models/piper/te_IN-padmavathi-medium.onnx","license":"CC-BY-4.0 dataset; see the downloaded MODEL_CARD and attribution","developmentOnly":false}
+]
